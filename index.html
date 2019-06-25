@@ -8,23 +8,52 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
   </head>
   <body>
-        <form>
-        <input id="game-search-box" type="text" name="Game-name" placeholder="Game Name">
-        <br>
-        <input id="search-button" type="submit" value="Submit">
-        </form>
 
+    <nav class="navbar navbar-expand-sm navbar-light bg-light ">
+      <a class="navbar-brand" href="#"><img class="img-repsonsive" width="125px" height="100px" src="assets/images/logo.png">Next Favorite Game</a>
+      <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+          aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link mr-5" href="#">Login</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    
+      <div class="row ml-4 mt-5">
+          <div class="col-3">
+            <a href="" id="dev-button">Developers</a>
+            <br>
+            <a href="" id="reviews-button">Reviews</a>
+            <br>
+            <a href="" id="prices-button">Prices</a>
+          </div>
+          <div class="col-6">
+          <div class="jumbotron text-center">
+            <form>
+                <input id="game-search-box" type="text" name="Game-name" placeholder="Game Name">
+                <br>
+                <input id="search-button" type="submit" value="Submit">
+            </form>
+          </div> 
+          </div>
+      </div>  
+    
         <div id="game-poster"></div>
         <div id="description"></div>
         <div id="platform"></div>
 
-        <button type="dev-button">Developers</button>
-        <button type="reviews-button">Reviews</button>
-        <button type="prices-button">prices</button>
+        
 
         <div id="popular"></div>
+      
 
 
 
