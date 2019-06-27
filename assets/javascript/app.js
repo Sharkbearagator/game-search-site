@@ -8,7 +8,7 @@ $("#search-button").on("click", function () {
     event.preventDefault();
     //variables for user input and for url
     var gameName=$("#game-search-box").val();
-    var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:"+ gameName +"&api_key="+ apiKey;
+    var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:"+ gameName +"&api_key="+ apiKey +"&limit=1";
 
     //ajax function... using jsonp to get results because otherwise we dont
     $.ajax({
@@ -21,10 +21,52 @@ $("#search-button").on("click", function () {
         },
     
     }).then(function (response) {
+        
+        clearing();
+       
         console.log(response);
+
+        var data= response.results[0];
+
+        console.log(data.name);
+
+        var posterImage= $("<img>");
+
+        posterImage.attr("src", data.image.small_url);
+        posterImage.attr("id","poster")
+        $("#game-poster").append(posterImage);
+
+        var descriptionBox =$("<h6>");
+        descriptionBox.html(data.deck);
+        $("#description").append(descriptionBox);
+
+        var platformsArray = data.platforms;
+
+        for(var i=0;i<platformsArray.length;i++){
+            var platformContainer=$("<p>");
+
+            platformContainer.text(platformsArray[i].name);
+            $("#platform").append(platformContainer);
+
+            console.log(platformsArray[i].name);
+
+        }
+        
+
 
     });
 
+    function clearing(){
+        $("#game-search-box").val("");
+        $("#game-poster").empty();
+        $("#description").empty();
+        $("#platform").empty();
+        debugger;
+
+
+
+    }
+   
     
 
 });
