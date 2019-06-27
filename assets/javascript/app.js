@@ -8,7 +8,7 @@ $("#search-button").on("click", function () {
     event.preventDefault();
     //variables for user input and for url
     var gameName=$("#game-search-box").val();
-    var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:"+ gameName +"&api_key="+ apiKey +"&limit=1";
+    var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:"+ gameName +"&api_key="+ apiKey +"&limit=3&number_of_user_reviews=50";
 
     //ajax function... using jsonp to get results because otherwise we dont
     $.ajax({
@@ -36,7 +36,7 @@ $("#search-button").on("click", function () {
         posterImage.attr("id","poster")
         $("#game-poster").append(posterImage);
 
-        var descriptionBox =$("<h6>");
+        var descriptionBox =$("<h4>");
         descriptionBox.html(data.deck);
         $("#description").append(descriptionBox);
 
@@ -61,7 +61,7 @@ $("#search-button").on("click", function () {
         $("#game-poster").empty();
         $("#description").empty();
         $("#platform").empty();
-        debugger;
+        
 
 
 
