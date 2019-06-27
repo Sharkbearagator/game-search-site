@@ -1,0 +1,55 @@
+body {
+    font-family: 'Anton', sans-serif;
+    background-color: black;
+}
+
+h1 {
+    font-family: 'Metal Mania', cursive;
+    font-weight: 200;
+}
+
+.navbar {
+    height: 50px;
+}
+
+.container-fluid {
+    height: 300px;
+    text-align: center;
+    padding: 50px 0;
+    color: white;
+    font-family: 'Amaranth', sans-serif;
+    background-image: url("../images/newWallpaper.png");
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 80px;
+    
+}
+
+.navbar-brand {
+    font-size: 28px;
+    margin-left: 85px;
+}
+
+a {
+    color: white;
+    font-size: 18px;
+}
+
+a:hover {
+    font-size: 32px;
+    color: yellow;
+}
+
+.login {
+    margin-right: 85px;
+}
+
+.link {
+    margin-top: 20px;
+    margin-right: 60px;
+    font-size: 21px;
+}
+
+
