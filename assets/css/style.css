@@ -1,6 +1,11 @@
 body {
-    font-family: 'Roboto Slab', serif;
+    font-family: 'Anton', sans-serif;
     background-color: black;
+}
+
+h1 {
+    font-family: 'Metal Mania', cursive;
+    font-weight: 200;
 }
 
 .navbar {
