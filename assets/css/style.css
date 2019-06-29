@@ -3,8 +3,11 @@ body {
     background-color: black;
 }
 
-h1 {
+.head {
     font-family: 'Rock Salt', cursive;
+    color: white;
+    margin-top: 50px;
+    margin-bottom: 40px;
 }
 
 .main {
@@ -33,7 +36,13 @@ h1 {
 
 .title {
     font-size: 80px;
-    
+    font-family: 'Rock Salt', cursive;
+    margin-bottom: 30px;
+    margin-top: 30px;  
+}
+
+.subTitle {
+    font-family: 'Rock Salt', cursive;
 }
 
 .navbar-brand {
@@ -72,8 +81,29 @@ a.nav-link:hover {
     margin-right: 30px;
 }
 
+
+.info {
+    color: white;
+}
+
+
+#footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+    vertical-align: text-bottom;
+}
+
+#login-div{
+    color:white;
+}
+
+
 #link:hover {
     background-color: gray;
     color: white;
 }
 /* IVER */
+
