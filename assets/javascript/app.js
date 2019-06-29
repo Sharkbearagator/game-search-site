@@ -117,9 +117,8 @@ $("#search-button").on("click", function () {
         $("#game-poster").append(posterImage);
 
         //create <h4> element for the description, deck is html value, when need to write it inside the new element <h4>, then append the new element to #description div
-        var descriptionBox =$("<h4>");
+        var descriptionBox =$("<h4>")
 
-        
         descriptionBox.html(data.deck);
         $("#description").append(descriptionBox);
 
@@ -162,7 +161,7 @@ $("#search-button").on("click", function () {
             }
           // if user is undefined and have clicked button more than once
             else if(pushes===1){
-              loginDiv.text("You have not login, or have login unsuccesfully.");
+              loginDiv.text("You are not logged in, or have logged in unsuccesfully.");
               favButtonPushes.push("push");
             }
           }
@@ -197,28 +196,18 @@ $("#search-button").on("click", function () {
             // console.log(name);
     
 
-
+            localStorage.setItem("gameDescription",data.description);
         });
+
 
           // Saving into the Local Storage the Overview of the game to show it on the Review page. (IVER)
           localStorage.setItem("gameDescription",data.description);
 
 
+
     });
 
-    
-   
-    
 
-
-        // for (var i = 0; i < platformsArray.length; i++) {
-        //     var platformContainer = $("<p>");
-
-        //     platformContainer.text(platformsArray[i].name);
-        //     $("#platform").append(platformContainer);
-        // }
-      
-    });
 
     function clearing() {
         $("#game-search-box").val("");
@@ -239,7 +228,10 @@ $("#search-button").on("click", function () {
             $(".card-footer").append(newLink);
         }
     }
-  }
+
+}
+
+
 
 //to clear divs and input value....
 function clearing(){
