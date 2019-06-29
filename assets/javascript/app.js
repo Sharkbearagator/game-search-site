@@ -124,7 +124,6 @@ $("#search-button").on("click", function () {
 
         posterImage.attr("src", data.image.small_url);
         posterImage.attr("id", "poster")
-        $("#game-poster").append(posterImage);
 
         var descriptionBox = $("<h6>");
 
@@ -169,7 +168,7 @@ $("#search-button").on("click", function () {
             }
           // if user is undefined and have clicked button more than once
             else if(pushes===1){
-              loginDiv.text("You have not login, or have login unsuccesfully.");
+              loginDiv.text("You are not logged in, or have logged in unsuccesfully.");
               favButtonPushes.push("push");
             }
           }
@@ -204,28 +203,17 @@ $("#search-button").on("click", function () {
             // console.log(name);
     
 
+            localStorage.setItem("gameDescription",data.description);
+        });
 
         });
 
 
-
-
     });
 
-    
-   
-    
-
-
-        for (var i = 0; i < platformsArray.length; i++) {
-            var platformContainer = $("<p>");
-
-            platformContainer.text(platformsArray[i].name);
-            $("#platform").append(platformContainer);
-        }
+  
+       
         // Saving into the Local Storage the Overview of the game to show it on the Review page. (IVER)
-        localStorage.setItem("gameDescription",data.description);
-    });
 
     function clearing() {
         $("#game-search-box").val("");
@@ -246,7 +234,7 @@ $("#search-button").on("click", function () {
             $(".card-footer").append(newLink);
         }
     }
-};
+}
 
 
 
