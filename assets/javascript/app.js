@@ -162,7 +162,7 @@ $("#search-button").on("click", function () {
             }
           // if user is undefined and have clicked button more than once
             else if(pushes===1){
-              loginDiv.text("You have not login, or have login unsuccesfully.");
+              loginDiv.text("You are not logged in, or have logged in unsuccesfully.");
               favButtonPushes.push("push");
             }
           }
@@ -197,7 +197,7 @@ $("#search-button").on("click", function () {
             // console.log(name);
     
 
-
+            localStorage.setItem("gameDescription",data.description);
         });
 
           // Saving into the Local Storage the Overview of the game to show it on the Review page. (IVER)
@@ -240,6 +240,8 @@ $("#search-button").on("click", function () {
         }
     }
   }
+
+
 
 //to clear divs and input value....
 function clearing(){
