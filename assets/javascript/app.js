@@ -84,7 +84,7 @@ function useThisKey(user) {
         var gameName = $("#game-search-box").val();
         var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
 
-
+console.log(queryURL);
         displayLinks();// calling the function (IVER)
 
         //ajax function... using jsonp to get results because otherwise we dont
@@ -202,6 +202,8 @@ function useThisKey(user) {
 
             // Saving into the Local Storage the Overview of the game to show it on the Review page. (IVER)
             localStorage.setItem("gameDescription", data.description);
+            // localStorage.setItem("gameDevelopers", data.developer);
+
 
 
         });
