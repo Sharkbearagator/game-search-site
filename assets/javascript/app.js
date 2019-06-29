@@ -186,7 +186,7 @@ console.log(queryURL);
 
 
 
-
+        });
             //will use to call database stored values: 
             dataRef.ref().on("child_added", function (childSnapshot) {
                 console.log(childSnapshot);
@@ -206,7 +206,10 @@ console.log(queryURL);
 
 
 
-        });
+
+          // Saving into the Local Storage the Overview of the game to show it on the Review page. (IVER)
+          localStorage.setItem("gameDescription",data.description);
+
 
 
 
@@ -231,6 +234,7 @@ console.log(queryURL);
             $(".card-footer").append(newLink);
         }
     }
+
 }
 
 

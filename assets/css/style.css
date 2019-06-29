@@ -119,6 +119,16 @@ a.nav-link:hover {
     background-color: gray;
     color: white;
 }
+
+#poster {
+    max-width: 350px;
+}
+
+.reviews {
+    color: white;
+}
+
+
 /* IVER */
 
 >>>>>>> 6a68a52021f62f468c95c4bc353cf43ad630d49a
