@@ -35,7 +35,9 @@ localStorage.removeItem("gameDescription");//Erasing the Local Storage (IVER)
 var buttonsArray = ["Reviews", "Prices", "Developers"]
    
 
+
     //debugger;
+
 
 
     // ...
@@ -47,7 +49,9 @@ var buttonsArray = ["Reviews", "Prices", "Developers"]
     var email = error.email;
     // The firebase.auth.AuthCredential type that was used.
     var credential = error.credential;
+
     //debugger;
+
     // ...
   });
 
@@ -62,6 +66,10 @@ function useThisKey(user){
 
 //giantbomb API front page changes.....
 
+
+localStorage.removeItem("gameDescription");//Erasing the Local Storage (IVER)
+var buttonsArray = ["Reviews", "Prices", "Developers"]
+
 var apiKey = "bf4a00432b31ea4966819b748105a4d93da12821";
 
 
@@ -69,8 +77,13 @@ $("#search-button").on("click", function () {
     //prevent page to refresh
     event.preventDefault();
     //variables for user input and for url
+
     var gameName=$("#game-search-box").val();
     var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:"+ gameName +"&api_key="+ apiKey +"&limit=3&number_of_user_reviews=50";
+
+    var gameName = $("#game-search-box").val();
+    var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
+
 
     displayLinks();// calling the function (IVER)
     
@@ -105,6 +118,16 @@ $("#search-button").on("click", function () {
 
         //create <h4> element for the description, deck is html value, when need to write it inside the new element <h4>, then append the new element to #description div
         var descriptionBox =$("<h4>");
+
+        var data = response.results[0];
+        var posterImage = $("<img>");
+
+        posterImage.attr("src", data.image.small_url);
+        posterImage.attr("id", "poster")
+        $("#game-poster").append(posterImage);
+
+        var descriptionBox = $("<h6>");
+
         descriptionBox.html(data.deck);
         $("#description").append(descriptionBox);
 
@@ -192,6 +215,25 @@ $("#search-button").on("click", function () {
    
     
 
+
+        for (var i = 0; i < platformsArray.length; i++) {
+            var platformContainer = $("<p>");
+
+            platformContainer.text(platformsArray[i].name);
+            $("#platform").append(platformContainer);
+        }
+        // Saving into the Local Storage the Overview of the game to show it on the Review page. (IVER)
+        localStorage.setItem("gameDescription",data.description);
+    });
+
+    function clearing() {
+        $("#game-search-box").val("");
+        $("#game-poster").empty();
+        $("#description").empty();
+        $("#platform").empty();
+    }
+
+
     function displayLinks() { //Function to display Links "Reviews","Prices","Developers" after click on submit button (IVER)
         $(".card-footer").empty();
         for (var i = 0; i < buttonsArray.length; i++) {
@@ -203,9 +245,9 @@ $("#search-button").on("click", function () {
             $(".card-footer").append(newLink);
         }
     }
-});
-
 }
+
+
 
 //to clear divs and input value....
 function clearing(){
