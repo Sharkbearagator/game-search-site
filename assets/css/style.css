@@ -81,16 +81,12 @@ a.nav-link:hover {
     margin-right: 30px;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 #link:hover {
     background-color: gray;
     color: white;
 }
 /* IVER */
-=======
-.info {
-=======
 
 .info {
     color: white;
@@ -101,7 +97,6 @@ a.nav-link:hover {
     position: relative;
     bottom: 0;
     width: 100%;
->>>>>>> 6a68a52021f62f468c95c4bc353cf43ad630d49a
     color: white;
     text-align: center;
     vertical-align: text-bottom;
@@ -110,9 +105,7 @@ a.nav-link:hover {
 #login-div{
     color:white;
 }
-<<<<<<< HEAD
->>>>>>> ae413fee5b50b8da202ee5a420d06cd725bab625
-=======
+
 
 
 #link:hover {
@@ -131,4 +124,4 @@ a.nav-link:hover {
 
 /* IVER */
 
->>>>>>> 6a68a52021f62f468c95c4bc353cf43ad630d49a
+

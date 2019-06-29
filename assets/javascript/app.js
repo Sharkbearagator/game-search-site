@@ -1,4 +1,4 @@
-
+window.onload = localStorage.clear();//Erasing the Local Storage (IVER) ***** I moved this line to the very top on new iverDeveloperLink Branch
 var favButtonPushes = []
 
 // Your web app's Firebase configuration
@@ -31,7 +31,8 @@ $("#login").on("click", function () {
         clearing();
         useThisKey(user);
 
-        localStorage.removeItem("gameDescription");//Erasing the Local Storage (IVER)
+    
+
         var buttonsArray = ["Reviews", "Prices", "Developers"]
 
 
@@ -67,7 +68,7 @@ function useThisKey(user) {
     //giantbomb API front page changes.....
 
 
-    localStorage.removeItem("gameDescription");//Erasing the Local Storage (IVER)
+
     var buttonsArray = ["Reviews", "Prices", "Developers"]
 
     var apiKey = "bf4a00432b31ea4966819b748105a4d93da12821";
@@ -84,7 +85,7 @@ function useThisKey(user) {
         var gameName = $("#game-search-box").val();
         var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
 
-console.log(queryURL);
+        console.log(queryURL);
         displayLinks();// calling the function (IVER)
 
         //ajax function... using jsonp to get results because otherwise we dont
@@ -105,6 +106,8 @@ console.log(queryURL);
             console.log(response);
             //lets print first value in array
             var data = response.results[0];
+            var myGuid = response.results[0].guid;
+            console.log(myGuid);
             var gameNamePrint = data.name
             console.log(data.name);
             //create elements
@@ -119,9 +122,9 @@ console.log(queryURL);
             //create <h4> element for the description, deck is html value, when need to write it inside the new element <h4>, then append the new element to #description div
             var descriptionBox = $("<h4>");
 
-            
 
-            
+
+
             descriptionBox.html(data.deck);
             $("#description").append(descriptionBox);
 
@@ -182,42 +185,58 @@ console.log(queryURL);
                     //need to get it to push once just once!!!!!
 
                 }
+
             });
+
+
+            localStorage.setItem("gameDescription", data.description);
+
+// New code on the iverDeveloperLink Branch 
+            queryURL = "https://www.giantbomb.com/api/game/" + myGuid + "/?format=JSONP&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
+            console.log(queryURL);
+
+            $.ajax({
+                url: queryURL,
+                dataType: "jsonp",
+                jsonp: 'json_callback',
+                guidData: {
+                    api_key: apiKey,
+                    format: 'jsonp',
+                },
+
+            })
+                .then(function (response) {
+                    console.log(response);
+
+                    var devs = response.results.developers;
+                    console.log(devs);
+                    var devsCount = devs.length;
+                    localStorage.setItem("devsCount", devsCount);
+                    for (var i = 0; i < devs.length; i++) {
+                        // debugger;
+                        var devName = response.results.developers[i].name;
+                        localStorage.setItem("gameDevs" + i, devName);
+                        console.log(devName);
+                        // debugger;
+                    }
+                });
+// New code on the iverDeveloperLink Branch
+
+        });
+        //will use to call database stored values: 
+        dataRef.ref().on("child_added", function (childSnapshot) {
+            console.log(childSnapshot);
+            //still trying to figure out how to call inside becuase when calling childsnapshot i dont find the smallest values....
+
+            // name = childSnapshot.val().name;
+
+            // console.log(name);
 
 
 
         });
-            //will use to call database stored values: 
-            dataRef.ref().on("child_added", function (childSnapshot) {
-                console.log(childSnapshot);
-                //still trying to figure out how to call inside becuase when calling childsnapshot i dont find the smallest values....
 
-                // name = childSnapshot.val().name;
-
-                // console.log(name);
-
-
-
-            });
-
-            // Saving into the Local Storage the Overview of the game to show it on the Review page. (IVER)
-            localStorage.setItem("gameDescription", data.description);
-            // localStorage.setItem("gameDevelopers", data.developer);
-
-
-
-
-          // Saving into the Local Storage the Overview of the game to show it on the Review page. (IVER)
-          localStorage.setItem("gameDescription",data.description);
-
-
-
-
-
-
-
-        
-
+       
     });
 
 
