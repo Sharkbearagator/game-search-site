@@ -246,9 +246,9 @@ $("#search-button").on("click", function () {
             $(".card-footer").append(newLink);
         }
     }
-});
+};
 
-}
+
 
 //to clear divs and input value....
 function clearing(){
