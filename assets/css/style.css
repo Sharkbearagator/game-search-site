@@ -76,6 +76,11 @@ a.nav-link:hover {
 #poster{
     height:300px;
 }
+/* IVER */
+#link{ 
+    margin-right: 30px;
+}
+
 
 .info {
     color: white;
@@ -94,4 +99,11 @@ a.nav-link:hover {
 #login-div{
     color:white;
 }
+
+
+#link:hover {
+    background-color: gray;
+    color: white;
+}
+/* IVER */
 
