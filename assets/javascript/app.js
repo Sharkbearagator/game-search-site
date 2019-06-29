@@ -117,7 +117,7 @@ $("#search-button").on("click", function () {
         $("#game-poster").append(posterImage);
 
         //create <h4> element for the description, deck is html value, when need to write it inside the new element <h4>, then append the new element to #description div
-        var descriptionBox =$("<h4>");
+        var descriptionBox =$("<h4>")
 
         
         descriptionBox.html(data.deck);
@@ -204,15 +204,13 @@ $("#search-button").on("click", function () {
           localStorage.setItem("gameDescription",data.description);
 
 
-    });
 
     
    
     
 
+    });
 
-        // for (var i = 0; i < platformsArray.length; i++) {
-        //     var platformContainer = $("<p>");
 
         //     platformContainer.text(platformsArray[i].name);
         //     $("#platform").append(platformContainer);
