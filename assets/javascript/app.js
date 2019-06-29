@@ -183,7 +183,10 @@ $("#search-button").on("click", function () {
             }     
         });
         
+        localStorage.setItem("gameDescription",data.description);
+      });
 
+      });
         
        
         //will use to call database stored values: 
@@ -196,12 +199,6 @@ $("#search-button").on("click", function () {
             // console.log(name);
     
 
-            localStorage.setItem("gameDescription",data.description);
-        });
-
-
-          // Saving into the Local Storage the Overview of the game to show it on the Review page. (IVER)
-          localStorage.setItem("gameDescription",data.description);
 
 
 
@@ -233,16 +230,11 @@ $("#search-button").on("click", function () {
 
 
 
-//to clear divs and input value....
-function clearing(){
-  $("#game-search-box").val("");
-  $("#game-poster").empty();
-  $("#description").empty();
-  $("#platform").empty();
+
     
 
 
 
-}
+
 
 
