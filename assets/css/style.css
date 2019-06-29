@@ -1,0 +1,109 @@
+body {
+    font-family: 'Anton', sans-serif;
+    background-color: black;
+}
+
+.head {
+    font-family: 'Rock Salt', cursive;
+    color: white;
+    margin-top: 50px;
+    margin-bottom: 40px;
+}
+
+.main {
+    width: 50%;
+    margin-top: 50px;
+}
+
+#game-search-box {
+    width: 250px;
+    margin-right: 5px;
+}
+
+.navbar {
+    height: 50px;
+}
+
+.container-fluid {
+    height: 300px;
+    text-align: center;
+    padding: 50px 0;
+    color: white;
+    font-family: 'Amaranth', sans-serif;
+    background-image: url("../images/newWallpaper.png");
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 80px;
+    font-family: 'Rock Salt', cursive;
+    margin-bottom: 30px;
+    margin-top: 30px;  
+}
+
+.subTitle {
+    font-family: 'Rock Salt', cursive;
+}
+
+.navbar-brand {
+    font-size: 21px;
+    margin-left: 50px;
+    font-family: 'Rock Salt', cursive;
+}
+
+a {
+    color: black;
+    font-size: 18px;
+}
+
+a.nav-link:hover {
+    background-color: gray;
+    color: white;
+    
+    
+}
+
+.login {
+    margin-right: 50px;
+}
+
+.link {
+    margin-top: 20px;
+    margin-right: 60px;
+    font-size: 21px;
+}
+
+#poster{
+    height:300px;
+}
+/* IVER */
+#link{ 
+    margin-right: 30px;
+}
+
+
+.info {
+    color: white;
+}
+
+
+#footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+    vertical-align: text-bottom;
+}
+
+#login-div{
+    color:white;
+}
+
+
+#link:hover {
+    background-color: gray;
+    color: white;
+}
+/* IVER */
+
