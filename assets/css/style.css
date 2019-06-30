@@ -113,6 +113,36 @@ a.nav-link:hover {
 .reviews {
     color: white;
 }
+/*Tyler*/
+#popular{
+    color: white;
+}
+#zelda{
+    height:200px;
+    width: 200px;
+    margin: 5px; 
+    margin-left: 20px;
+    color: white;
+    
+}
+#red-dead{
+    height:200px;
+    width: 200px;
+    margin: 5px; 
+    color: white;
+}
+#gta{
+    height:200px;
+    width: 200px; 
+    margin: 5px;
+    color: white;
+}
+#mario{
+    height:200px;
+    width: 200px; 
+    margin: 5px;
+    color: white;
+}
 
 
 /* IVER */

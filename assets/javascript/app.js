@@ -227,14 +227,21 @@ $("#search-button").on("click", function () {
     }
 
 }
+$("#zelda").on("click",function(){
+queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:" + this + "&api_key=" + apiKey + "&limit=1";
+$.ajax({
+  url: queryURL,
+  dataType: "jsonp",
+  jsonp: 'json_callback',
+  data: {
+      api_key: apiKey,
+      format: 'jsonp',
+  },
 
+}).then(function (response) {
+  clearing();
+  console.log(response)
+  event.preventDefault();
+})
 
-
-
-    
-
-
-
-
-
-
+});
