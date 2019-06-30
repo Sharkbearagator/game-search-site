@@ -117,30 +117,29 @@ a.nav-link:hover {
 #popular{
     color: white;
 }
-#zelda{
+.pictures{
     height:200px;
     width: 200px;
     margin: 5px; 
     margin-left: 20px;
+}
+    #zelda{
     color: white;
     
 }
-#red-dead{
-    height:200px;
-    width: 200px;
-    margin: 5px; 
+
+
+    #red-dead{
     color: white;
 }
-#gta{
-    height:200px;
-    width: 200px; 
-    margin: 5px;
+
+    
+    #gta{
     color: white;
 }
-#mario{
-    height:200px;
-    width: 200px; 
-    margin: 5px;
+
+   
+    #mario{
     color: white;
 }
 
