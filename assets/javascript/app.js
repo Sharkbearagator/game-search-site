@@ -186,7 +186,10 @@ $("body").on("click",".favoriteGame",function(event){
   });
 
 
-    var buttonsArray = ["Reviews", "Prices", "Developers"]
+
+localStorage.removeItem("gameDescription");//Erasing the Local Storage (IVER)
+var buttonsArray = ["Reviews", "Developers"]
+
 
     var apiKey = "bf4a00432b31ea4966819b748105a4d93da12821";
 
@@ -339,6 +342,19 @@ function favButtonOnClick(user){
       name: gameNamePrint,
         // searchTerm: gameName,(we dont this one any more!!)
       });
+
+
+
+    function displayLinks() { //Function to display Links "Reviews","Prices","Developers" after click on submit button (IVER)
+        $(".card-footer").empty();
+        for (var i = 0; i < buttonsArray.length; i++) {
+            var href = buttonsArray[i].toLocaleLowerCase();
+            var newLink = $("<a class='newBtn'>");
+            newLink.attr("id", "link");
+            newLink.attr("href","../" + href + ".html");
+            newLink.text(buttonsArray[i]);
+            $(".card-footer").append(newLink);
+        }
 
     }
 
