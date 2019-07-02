@@ -89,6 +89,12 @@ a.nav-link:hover {
 }
 
 
+#link:hover {
+    background-color: gray;
+    color: white;
+}
+/* IVER */
+
 .info {
     color: white;
 }
@@ -107,6 +113,11 @@ a.nav-link:hover {
     color:white;
 }
 
+#fav-games-div{
+    color:white;
+}
+
+
 
 #link:hover {
     background-color: gray;
@@ -123,4 +134,5 @@ a.nav-link:hover {
 
 
 /* IVER */
+
 
