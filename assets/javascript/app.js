@@ -185,9 +185,10 @@ $("body").on("click",".favoriteGame",function(event){
 
   });
 
-});
-//....function ends here......
 
+    var buttonsArray = ["Reviews", "Prices", "Developers"]
+
+    var apiKey = "bf4a00432b31ea4966819b748105a4d93da12821";
 
 //function starts....if user decides not to log in, let them call results...
 function useThisKey(){
@@ -375,4 +376,4 @@ function clearing(){
 
 
 
-
+});

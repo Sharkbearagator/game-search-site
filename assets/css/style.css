@@ -82,6 +82,12 @@ a.nav-link:hover {
 }
 
 
+#link:hover {
+    background-color: gray;
+    color: white;
+}
+/* IVER */
+
 .info {
     color: white;
 }
@@ -105,9 +111,21 @@ a.nav-link:hover {
 }
 
 
+
 #link:hover {
     background-color: gray;
     color: white;
 }
+
+#poster {
+    max-width: 350px;
+}
+
+.reviews {
+    color: white;
+}
+
+
 /* IVER */
+
 
