@@ -113,11 +113,12 @@ a.nav-link:hover {
 .reviews {
     color: white;
 }
+
 /*Tyler*/
 #popular{
     color: white;
 }
-.pictures{
+.picture{
     height:200px;
     width: 200px;
     margin: 5px; 
@@ -127,19 +128,19 @@ a.nav-link:hover {
     color: white;
     
 }
-
-
     #red-dead{
     color: white;
 }
-
-    
     #gta{
     color: white;
 }
-
-   
     #mario{
+    color: white;
+}
+    #witcher-3{
+    color: white;
+}
+    #sleeping-dogs{
     color: white;
 }
 
