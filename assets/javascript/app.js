@@ -191,7 +191,6 @@ localStorage.removeItem("gameDescription");//Erasing the Local Storage (IVER)
 var buttonsArray = ["Reviews", "Developers"]
 
 
-<<<<<<< HEAD
     var apiKey = "bf4a00432b31ea4966819b748105a4d93da12821";
 
 //function starts....if user decides not to log in, let them call results...
@@ -268,7 +267,6 @@ function useThisKey(){
       //passing on click function, dynamic button
       favButtonOnClick(user);   
     
-=======
 
 var apiKey = "bf4a00432b31ea4966819b748105a4d93da12821";
 //Tyler
@@ -580,7 +578,6 @@ $(".picture").on("click",function(){
 
 
 
->>>>>>> a344d985a99ca130f4b9757bcf95791edac2ec46
         });
   });  
 }
@@ -696,23 +693,11 @@ function displayLinks() { //Function to display Links "Reviews","Prices","Develo
 }
 
 //to clear divs and input value....
-<<<<<<< HEAD
-function clearing(){
-  $("#game-search-box").val("");
-  $("#game-poster").empty();
-  $("#description").empty();
-  $("#platform").empty();  
-}
 
-
-
-
-});
-=======
 function clearing() {
     $("#game-search-box").val("");
     $("#game-poster").empty();
     $("#description").empty();
     $("#platform").empty();
 }
->>>>>>> a344d985a99ca130f4b9757bcf95791edac2ec46
+
