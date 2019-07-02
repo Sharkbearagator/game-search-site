@@ -178,8 +178,35 @@ $(".picture").on("click",function(){
 
           }     
       });
-      
+      var myGuid = response.results[0].guid;
       localStorage.setItem("gameDescription",data.description);
+      queryURL = "https://www.giantbomb.com/api/game/" + myGuid + "/?format=JSONP&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
+            console.log(queryURL);
+            $.ajax({
+                url: queryURL,
+                dataType: "jsonp",
+                jsonp: 'json_callback',
+                guidData: {
+                    api_key: apiKey,
+                    format: 'jsonp',
+                },
+
+            })
+                .then(function (response) {
+                    console.log(response);
+
+                    var devs = response.results.developers;
+                    console.log(devs);
+                    var devsCount = devs.length;
+                    localStorage.setItem("devsCount", devsCount);
+                    for (var i = 0; i < devs.length; i++) {
+                        // debugger;
+                        var devName = response.results.developers[i].name;
+                        localStorage.setItem("gameDevs" + i, devName);
+                        console.log(devName);
+                        // debugger;
+                    }
+                });
     });
 })
 //$("#search-button").on("click", function () {
