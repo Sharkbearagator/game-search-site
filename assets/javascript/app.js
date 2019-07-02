@@ -67,7 +67,7 @@ function useThisKey(user){
 
 
 localStorage.removeItem("gameDescription");//Erasing the Local Storage (IVER)
-var buttonsArray = ["Reviews", "Prices", "Developers"]
+var buttonsArray = ["Reviews", "Developers"]
 
 var apiKey = "bf4a00432b31ea4966819b748105a4d93da12821";
 
@@ -227,7 +227,7 @@ $("#search-button").on("click", function () {
         $(".card-footer").empty();
         for (var i = 0; i < buttonsArray.length; i++) {
             var href = buttonsArray[i].toLocaleLowerCase();
-            var newLink = $("<a>");
+            var newLink = $("<a class='newBtn'>");
             newLink.attr("id", "link");
             newLink.attr("href","../" + href + ".html");
             newLink.text(buttonsArray[i]);
