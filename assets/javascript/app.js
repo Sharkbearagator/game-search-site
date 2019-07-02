@@ -4,11 +4,9 @@
   var favoriteGamesArray=[]
   var repetitiveFavoriteGamesPushes=[]
 
-  //
-
+  //variables we need
   var user;
       
-
  //hiding games-saved-chart id when user has not login... 
  $("#saved-games-card").hide();
 
@@ -185,10 +183,8 @@ $("body").on("click",".favoriteGame",function(event){
 
   });
 
+});
 
-    var buttonsArray = ["Reviews", "Prices", "Developers"]
-
-    var apiKey = "bf4a00432b31ea4966819b748105a4d93da12821";
 
 //function starts....if user decides not to log in, let them call results...
 function useThisKey(){
@@ -376,4 +372,4 @@ function clearing(){
 
 
 
-});
+
