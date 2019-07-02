@@ -4,8 +4,16 @@
   var favoriteGamesArray=[]
   var repetitiveFavoriteGamesPushes=[]
 
+  //
+
+  var user;
+      
+
  //hiding games-saved-chart id when user has not login... 
  $("#saved-games-card").hide();
+
+ //hiding login button...
+ $("#logout").hide();
 
  //storing different elements used to pront ajax results into the DOM
   var favButton =$("<button>");
@@ -43,12 +51,15 @@
       var token = result.credential.accessToken;
                   console.log(token);
       // The signed-in user info.
-      var user = result.user;
+      user = result.user;
       
       //clearing searches from the dom and the search val: to give the user a fresh start
       clearing();
       //showing saved games chart if they have logged in
       $("#saved-games-card").show();
+
+      //clearing array
+      favoriteGamesArray=[];
       
       //getting user's email
       var email =user.email
@@ -56,8 +67,10 @@
       //for us to store database using email as property for the values 
       var finalEmail= email.split('.').join("");
 
-      //calling ajax function and the save to favorites button
-      useThisKey(user);
+      //hiding login tab & showing logout tab
+      $("#login").hide();
+      $("#logout").show();
+      
     
       //function to use to call database stored values from each childSnapshot: 
       dataRef.ref(finalEmail +"/favoriteGames").on("child_added", function (childSnapshot) {
@@ -70,7 +83,7 @@
       favoriteGamesArray.push(childSnapshot.val().name);
                   console.log(favoriteGamesArray);
       });
-  
+      //debugger;
   
   
     //if they dont get to login successfully...
@@ -83,10 +96,13 @@
       // The firebase.auth.AuthCredential type that was used.
       var credential = error.credential;
       //calling ajax function for when user has not loggin;
-      useThisKey();
+      //useThisKey();
+     // debugger;
   
     });
   }
+
+  useThisKey();
 
   //if they click on login tab...
   $("#login").on("click",function(){
@@ -95,8 +111,23 @@
     authGoogle();
   });
 
+  //if they click logout...
+$("#logout").on("click",function(){
+  //logout firebase signOut function....
+  firebase.auth().signOut().then(function() {
+    $("#savedgames").empty();
+    $("#saved-games-card").hide();
+    clearing();
+    user=null;
+    $("#logout").hide();
+    $("#login").show();
+  }).catch(function(error) {
+    // An error happened.
+  });
+});
+
+
 //if user has not login they this function will let them search for results...
-  authGoogle();
 
 //event delegator function for when the user clicks on saved games...
 $("body").on("click",".favoriteGame",function(event){
@@ -159,7 +190,7 @@ $("body").on("click",".favoriteGame",function(event){
 
 
 //function starts....if user decides not to log in, let them call results...
-function useThisKey(user){
+function useThisKey(){
   //giantbomb API front page changes.....
   localStorage.removeItem("gameDescription");//Erasing the Local Storage (IVER)
     
@@ -185,6 +216,7 @@ function useThisKey(user){
         format: 'jsonp',
       },
     }).then(function (response) {
+      //debugger;
       //after we get Jsonp
       //clear divs and clear input value.
         clearing();
@@ -192,7 +224,9 @@ function useThisKey(user){
       //lets print first value in array
       var data= response.results[0];
       var gameNamePrint =data.name
-      repetitiveFavoriteGamesPushes=[]
+      repetitiveFavoriteGamesPushes=[];
+      favButtonPushes=[];
+      
         
               console.log(data.name);
 
@@ -227,7 +261,7 @@ function useThisKey(user){
       localStorage.setItem("gameDescription",data.description);
 
       //passing on click function, dynamic button
-      favButtonOnClick (user);   
+      favButtonOnClick(user);   
     
         });
   });  
@@ -240,6 +274,7 @@ function favButtonOnClick(user){
   //when they click on favButton button: 
   favButton.on("click",function(event){
   event.preventDefault(event);
+  //debugger;
 
                             console.log(favButtonPushes.length);
   //empty array, will be use for conditional below...
@@ -271,6 +306,7 @@ function favButtonOnClick(user){
   //else means they have looged in sucessfully, we will push to firebase database...
   else{
                     console.log(gameNamePrint);
+                    console.log("it is detecting you are logged in!!!!!")
     //getting email adjusted to information firebase can accept and storing it in a variable....                 
     var email =user.email
     console.log(email);
