@@ -142,6 +142,23 @@ $("body").on("click",".favoriteGame",function(event){
   displayLinks();
   
   //ajax function... using jsonp to get results
+
+
+//function useThisKey(user) {
+
+//Tyler
+// $(".picture").on("click",function(){
+//   //prevent page to refresh
+//   event.preventDefault();
+//   //variables for user input and for url
+
+//   var gameName= this.id;
+//   var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:"+ gameName +"&api_key="+ apiKey +"&limit=3&number_of_user_reviews=50";
+
+
+//   displayLinks();// calling the function (IVER)
+  
+  //ajax function... using jsonp to get results because otherwise we dont
   $.ajax({
       url: queryURL,
       dataType: "jsonp",
@@ -155,6 +172,7 @@ $("body").on("click",".favoriteGame",function(event){
       //after we get Jsonp
       //clear divs and clear input value.
       clearing();
+
                 console.log(response);
       //lets print first value in array
       var data= response.results[0];
@@ -162,17 +180,21 @@ $("body").on("click",".favoriteGame",function(event){
 
       //<img> is stored in global variable posterImage, <h4> is stored in global variable descriptionBox... 
       //give src and id attribute to posterImage...
+
       posterImage.attr("src", data.image.small_url);
       posterImage.attr("id","poster");
       //append it to #game-poster div
       $("#game-poster").append(posterImage);
 
+
       //lets work with the description div, and the descriptionBox element....
+
       descriptionBox.html(data.deck);
       $("#description").append(descriptionBox);
 
       //grab platform values from json result, platform values are in an array..
       var platformsArray = data.platforms;
+
       //to grab each of the array values we use for loop, to repeat each action with each value from platform array..
       for(var i=0;i<platformsArray.length;i++){
         var platformContainer=$("<p>");
@@ -182,6 +204,7 @@ $("body").on("click",".favoriteGame",function(event){
       }
 
   });
+
 
 });
 
@@ -362,6 +385,7 @@ function displayLinks() { //Function to display Links "Reviews","Prices","Develo
 }
 
 //to clear divs and input value....
+
 function clearing(){
   $("#game-search-box").val("");
   $("#game-poster").empty();
