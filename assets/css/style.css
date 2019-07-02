@@ -132,6 +132,36 @@ a.nav-link:hover {
     color: white;
 }
 
+/*Tyler*/
+#popular{
+    color: white;
+}
+.picture{
+    height:200px;
+    width: 200px;
+    margin: 5px; 
+    margin-left: 20px;
+}
+    #zelda{
+    color: white;
+    
+}
+    #red-dead{
+    color: white;
+}
+    #gta{
+    color: white;
+}
+    #mario{
+    color: white;
+}
+    #witcher-3{
+    color: white;
+}
+    #sleeping-dogs{
+    color: white;
+}
+
 
 /* IVER */
 
