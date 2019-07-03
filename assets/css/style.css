@@ -166,3 +166,16 @@ a.nav-link:hover {
 /* IVER */
 
 
+/* Tali */
+
+@media screen and (min-width: 400px) {
+    body {
+      background-color: 
+    }
+  }
+  
+  @media screen and (min-width: 800px) {
+    body {
+      background-color: 
+    }
+  }
