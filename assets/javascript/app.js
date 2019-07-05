@@ -68,6 +68,11 @@
       //hiding login tab & showing logout tab
       $("#login").hide();
       $("#logout").show();
+
+      //localStorage the user
+
+      //  // Saving into the Local Storage the final email as how it is stored in firebase, to use it when user is back to front page and make
+      //  localStorage.setItem("userEmail",finalEmail);
       
     
       //function to use to call database stored values from each childSnapshot: 
@@ -133,6 +138,9 @@ $("body").on("click",".favoriteGame",function(event){
   event.preventDefault(event);
   console.log($(this).text());
   var gameName=$(this).text();
+
+  //Erasing the Local Storage (IVER)
+  localStorage.removeItem("gameDescription");
   
   //variables for user input and for url
   var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:"+ gameName +"&api_key="+ apiKey +"&limit=3&number_of_user_reviews=50";
@@ -143,20 +151,6 @@ $("body").on("click",".favoriteGame",function(event){
   
   //ajax function... using jsonp to get results
 
-
-//function useThisKey(user) {
-
-//Tyler
-// $(".picture").on("click",function(){
-//   //prevent page to refresh
-//   event.preventDefault();
-//   //variables for user input and for url
-
-//   var gameName= this.id;
-//   var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:"+ gameName +"&api_key="+ apiKey +"&limit=3&number_of_user_reviews=50";
-
-
-//   displayLinks();// calling the function (IVER)
   
   //ajax function... using jsonp to get results because otherwise we dont
   $.ajax({
@@ -203,10 +197,21 @@ $("body").on("click",".favoriteGame",function(event){
                     console.log(platformsArray[i].name);
       }
 
+       // Saving into the Local Storage the Overview of the game to show it on the Review page. (IVER)
+       localStorage.setItem("gameDescription",data.description);
+
   });
 
 
 });
+
+
+
+
+
+
+
+
 
 
 //function starts....if user decides not to log in, let them call results...
@@ -284,7 +289,83 @@ function useThisKey(){
       favButtonOnClick(user);   
     
         });
-  });  
+
+  });
+
+        //Tyler
+$(".picture").on("click",function(){
+  //prevent page to refresh
+  event.preventDefault();
+  //variables for user input and for url
+
+  var gameName= this.id;
+  var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:"+ gameName +"&api_key="+ apiKey +"&limit=3&number_of_user_reviews=50";
+
+
+  displayLinks();// calling the function (IVER)
+  $.ajax({
+    url: queryURL,
+    dataType: "jsonp",
+    jsonp: 'json_callback',
+    data: {
+        api_key: apiKey,
+        format: 'jsonp',
+    },
+
+}).then(function (response) {
+    //after we get Jsonp
+    //clear divs and clear input value.
+    clearing();
+
+              console.log(response);
+    //lets print first value in array
+    var data= response.results[0];
+    var gameNamePrint =data.name;
+    repetitiveFavoriteGamesPushes=[];
+    favButtonPushes=[];
+              console.log(data.name);
+
+    //<img> is stored in global variable posterImage, <h4> is stored in global variable descriptionBox... 
+    //give src and id attribute to posterImage...
+
+    posterImage.attr("src", data.image.small_url);
+    posterImage.attr("id","poster");
+    posterImage.attr("data-name", gameNamePrint);
+    //append it to #game-poster div
+    $("#game-poster").append(posterImage);
+
+
+    //lets work with the description div, and the descriptionBox element....
+
+    descriptionBox.html(data.deck);
+    $("#description").append(descriptionBox);
+
+    //grab platform values from json result, platform values are in an array..
+    var platformsArray = data.platforms;
+
+    //to grab each of the array values we use for loop, to repeat each action with each value from platform array..
+    for(var i=0;i<platformsArray.length;i++){
+      var platformContainer=$("<p>");
+      platformContainer.text(platformsArray[i].name);
+      $("#platform").append(platformContainer);
+                  console.log(platformsArray[i].name);
+    }
+
+     //favButton is a global variable,it is a button element, we are using it to save games to favorites:
+     favButton.text("save to favorite games");
+     $("#game-poster").append(favButton);
+
+
+     // Saving into the Local Storage the Overview of the game to show it on the Review page. (IVER)
+     localStorage.setItem("gameDescription",data.description);
+
+     //passing on click function, dynamic button
+     favButtonOnClick(user);   
+   
+       });
+});
+
+ 
 }
 
 //...........function ends here.........
