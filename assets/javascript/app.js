@@ -6,6 +6,9 @@
 
   //variables we need
   var user;
+  var name;
+  var snapshotKey;
+  var gameToRemove;
       
  //hiding games-saved-chart id when user has not login... 
  $("#saved-games-card").hide();
@@ -69,6 +72,12 @@
       $("#login").hide();
       $("#logout").show();
 
+      //.....to talk with group......................................
+      $("#developers").hide();
+      $("#reviews").hide();
+
+      //......to talk with group..............................
+
       //localStorage the user
 
       //  // Saving into the Local Storage the final email as how it is stored in firebase, to use it when user is back to front page and make
@@ -77,16 +86,51 @@
     
       //function to use to call database stored values from each childSnapshot: 
       dataRef.ref(finalEmail +"/favoriteGames").on("child_added", function (childSnapshot) {
+        //adding a key to appead each key to a table
+      snapshotKey = childSnapshot.key;
+                  console.log(snapshotKey);
       //testing the values: 
                   console.log(childSnapshot.val());
-      var divForFavoriteGames = $("<div class='favoriteGame'>");
-      divForFavoriteGames.append(childSnapshot.val().name);
-      $("#savedgames").append(divForFavoriteGames);
-      //used to avoid pushing twice to firebase same game (refer to the dataRef.ref(....).push array)...
-      favoriteGamesArray.push(childSnapshot.val().name);
-                  console.log(favoriteGamesArray);
-      });
-      //debugger;
+      name=childSnapshot.val().name
+     //appending table....
+        tr = $('<tr/>');
+        tr.attr("id","tr-btn-" + snapshotKey + "");
+        tr.append("<td class='favoriteGame'id='game-name-" +snapshotKey+ "'>" + name+ "</td>");
+        tr.append("<td id='btnColumn-" +snapshotKey + "'> <button  class='gameRow' id='btn-" + snapshotKey + "'> Remove </button></td>");
+
+        $("#savedgames").append(tr);
+
+        
+       //used to avoid pushing twice to firebase same game (refer to the dataRef.ref(....).push array)...
+        favoriteGamesArray.push(childSnapshot.val().name);
+              console.log(favoriteGamesArray);
+
+        //function to remove specific child (childSnapshot)
+        $("#btn-" + snapshotKey + "").on("click",function(){
+              //....
+            var value=childSnapshot.getRef()
+
+            console.log(value);
+            //removing it from firebase
+            childSnapshot.getRef().remove();
+
+            //getting same key stored...
+            var key=childSnapshot.key;
+                    //testing values to use....
+                    console.log(key);
+                     console.log($("#game-name-" + key + "").text());
+            //removing values from favorite games array;     
+            for( var i = 0; i < favoriteGamesArray.length; i++){ 
+              if ( favoriteGamesArray[i] === $("#game-name-" + key + "").text()) {
+                favoriteGamesArray.splice(i, 1); 
+                i--;
+              }
+            }
+           //testing values... 
+            console.log(favoriteGamesArray);
+        }); 
+  
+      });             
   
   
     //if they dont get to login successfully...
@@ -104,6 +148,18 @@
   
     });
   }
+
+  //remove table column from DOM...
+  $("body").on("click",".gameRow",function(){
+    //testing this.id
+        console.log(this.id);
+    //storing in a variable this.id
+    var thisId= this.id;
+      //remove it from the DOM
+      $("#tr-"+ thisId +"").remove();
+  });
+
+
 
   useThisKey();
 
@@ -124,10 +180,19 @@ $("#logout").on("click",function(){
     user=null;
     $("#logout").hide();
     $("#login").show();
+
+    //.....to talk with the group.......
+    $("#developers").show();
+    $("#reviews").show();
+    //.....to talk with the group...........
+    
+    
   }).catch(function(error) {
     // An error happened.
   });
 });
+
+
 
 
 //if user has not login they this function will let them search for results...
@@ -204,14 +269,6 @@ $("body").on("click",".favoriteGame",function(event){
 
 
 });
-
-
-
-
-
-
-
-
 
 
 //function starts....if user decides not to log in, let them call results...

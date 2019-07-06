@@ -23,10 +23,10 @@
       <div class="collapse navbar-collapse" id="collapsibleNavId">
         <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="reviews.html">Reviews</a>
+            <a class="nav-link" id="reviews" href="reviews.html">Reviews</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="developers.html">Developers</a>
+              <a class="nav-link" id="developers" href="developers.html">Developers</a>
             </li>
           <li class="nav-item">
             <a class="nav-link login" id="login" href="#">Login</a>
@@ -47,8 +47,19 @@
         <div class="card-header">
           Your Favorite Games Below
         </div>
-        <div id="savedgames" class="card-body">
+        <div class="card-body">
           
+                <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col">Game Name</th>
+                        <th scope="col">Changes</th>
+                      </tr>
+                    </thead>
+                    <tbody id="savedgames">
+                    </tbody>  
+                  </table>
+            
         </div>
           <div class="card-footer text-muted">
             
