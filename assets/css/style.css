@@ -1,6 +1,7 @@
 body {
     font-family: 'Roboto', sans-serif;
     background-color: black;
+    font-size: 18px;
 }
 
 .navbar {
@@ -91,6 +92,10 @@ a.nav-link:hover {
     margin-top: 20px;
     margin-right: 60px;
     font-size: 21px;
+}
+
+.nav-link {
+    color: black;
 }
 
 #poster{
