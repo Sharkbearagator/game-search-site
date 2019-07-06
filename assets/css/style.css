@@ -185,6 +185,20 @@ a.nav-link:hover {
 h2 {
     margin-top: 20px;
     margin-bottom: 20px;
+    margin-left: 35px;
+    color: white;
+}
+
+li {
+    display: liste-item;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+}
+
+div.NFG-footer {
+    background: black;
 }
 
 
