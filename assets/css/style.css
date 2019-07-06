@@ -79,6 +79,10 @@ a.nav-link:hover {
     
 }
 
+.card-header {
+    color: black;
+}
+
 .login {
     margin-right: 50px;
 }
