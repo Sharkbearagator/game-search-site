@@ -19,7 +19,10 @@ body {
 #game-search-box {
     width: 250px;
     margin-right: 5px;
+    background-color: transparent;
 }
+
+
 
 .navbar {
     height: 50px;
@@ -135,6 +138,7 @@ a.nav-link:hover {
 /*Tyler*/
 #popular{
     color: white;
+    font-family: 'Rock Salt', cursive;
 }
 .picture{
     height:200px;
@@ -168,14 +172,19 @@ a.nav-link:hover {
 
 /* Tali */
 
-@media screen and (min-width: 400px) {
-    body {
-      background-color: 
-    }
-  }
-  
-  @media screen and (min-width: 800px) {
-    body {
-      background-color: 
-    }
-  }
+li {
+    display: liste-item;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+}
+
+div.NFG-footer {
+    background: Silver;
+}
+
+
+/* div.container main {
+    background-color: transparent;
+} */
