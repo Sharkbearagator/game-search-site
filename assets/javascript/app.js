@@ -348,9 +348,7 @@ $("body").on("click",".favoriteGame",function(event){
         //debugger;
 
         // ...
-    });
-
-});
+  
 
 
 //if user decides not to log in, let them call results...
@@ -530,4 +528,4 @@ function clearing(){
 
 
 
-
+}
