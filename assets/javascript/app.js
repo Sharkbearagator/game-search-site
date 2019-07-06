@@ -1,8 +1,32 @@
-window.onload = localStorage.clear();//Erasing the Local Storage (IVER) ***** I moved this line to the very top on new iverDeveloperLink Branch
-var favButtonPushes = []
+ window.onload = localStorage.clear()
+ //empty arrays, used for .on("click" fuctions to don't take into effect respective changes more than 2 times...
+  var favButtonPushes=[]
+  var favoriteGamesArray=[]
+  var repetitiveFavoriteGamesPushes=[]
 
-// Your web app's Firebase configuration
-var firebaseConfig = {
+  //variables we need
+  var user;
+  var name;
+  var snapshotKey;
+  var gameToRemove;
+  var myGuid;
+      
+ //hiding games-saved-chart id when user has not login... 
+ $("#saved-games-card").hide();
+
+ //hiding login button...
+ $("#logout").hide();
+
+ //storing different elements used to pront ajax results into the DOM
+  var favButton =$("<button>");
+  var posterImage= $("<img>");
+  var descriptionBox =$("<h4>");
+
+ //api key for our giantbomb api...
+ var apiKey = "bf4a00432b31ea4966819b748105a4d93da12821";
+ 
+ // Your web app's Firebase configuration
+ var firebaseConfig = {
     apiKey: "AIzaSyC7DFF1nM3xl7dJH0siTbRiLUVrNMHGYuo",
     authDomain: "game-search-project.firebaseapp.com",
     databaseURL: "https://game-search-project.firebaseio.com",
@@ -10,77 +34,189 @@ var firebaseConfig = {
     storageBucket: "",
     messagingSenderId: "64495615699",
     appId: "1:64495615699:web:a6d486807f21c4d9"
-};
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+  };
 
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
 
+  //getting firebase database stored in a variable...
+  var dataRef = firebase.database();
 
-//firebase auth.. for when user logs in
-var provider = new firebase.auth.GoogleAuthProvider();
+  //firebase auth.. for when user logs in...
+  var provider = new firebase.auth.GoogleAuthProvider();
 
-//if they click on login tab...
+//function firebase google authentication...
+  function authGoogle(){
+    //when signing in sucessfully...
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      var token = result.credential.accessToken;
+                  console.log(token);
+      // The signed-in user info.
+      user = result.user;
+      
+      //clearing searches from the dom and the search val: to give the user a fresh start
+      clearing();
+      //showing saved games chart if they have logged in
+      $("#saved-games-card").show();
 
-$("#login").on("click", function () {
+      //clearing array
+      favoriteGamesArray=[];
+      
+      //getting user's email
+      var email =user.email
+                  console.log(email);
+      //for us to store database using email as property for the values 
+      var finalEmail= email.split('.').join("");
 
-    firebase.auth().signInWithPopup(provider).then(function (result) {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        var token = result.credential.accessToken;
-        // The signed-in user info.
-        var user = result.user;
-        clearing();
-        useThisKey(user);
+      //hiding login tab & showing logout tab
+      $("#login").hide();
+      $("#logout").show();
 
+      //.....to talk with group......................................
+      $("#developers").hide();
+      $("#reviews").hide();
+
+      //......to talk with group..............................
+
+      //localStorage the user
+
+      //  // Saving into the Local Storage the final email as how it is stored in firebase, to use it when user is back to front page and make
+      //  localStorage.setItem("userEmail",finalEmail);
+      
     
+      //function to use to call database stored values from each childSnapshot: 
+      dataRef.ref(finalEmail +"/favoriteGames").on("child_added", function (childSnapshot) {
+        //adding a key to appead each key to a table
+      snapshotKey = childSnapshot.key;
+                  console.log(snapshotKey);
+      //testing the values: 
+                  console.log(childSnapshot.val());
+      name=childSnapshot.val().name
+     //appending table....
+        tr = $('<tr/>');
+        tr.attr("id","tr-btn-" + snapshotKey + "");
+        tr.append("<td class='favoriteGame'id='game-name-" +snapshotKey+ "'>" + name+ "</td>");
+        tr.append("<td id='btnColumn-" +snapshotKey + "'> <button  class='gameRow' id='btn-" + snapshotKey + "'> Remove </button></td>");
 
-        var buttonsArray = ["Reviews", "Prices", "Developers"]
+        $("#savedgames").append(tr);
 
+        
+       //used to avoid pushing twice to firebase same game (refer to the dataRef.ref(....).push array)...
+        favoriteGamesArray.push(childSnapshot.val().name);
+              console.log(favoriteGamesArray);
 
+        //function to remove specific child (childSnapshot)
+        $("#btn-" + snapshotKey + "").on("click",function(){
+              //....
+            var value=childSnapshot.getRef()
 
-        //debugger;
+            console.log(value);
+            //removing it from firebase
+            childSnapshot.getRef().remove();
 
-
-
-        // ...
-    }).catch(function (error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
-
-        //debugger;
-
-        // ...
+            //getting same key stored...
+            var key=childSnapshot.key;
+                    //testing values to use....
+                    console.log(key);
+                     console.log($("#game-name-" + key + "").text());
+            //removing values from favorite games array;     
+            for( var i = 0; i < favoriteGamesArray.length; i++){ 
+              if ( favoriteGamesArray[i] === $("#game-name-" + key + "").text()) {
+                favoriteGamesArray.splice(i, 1); 
+                i--;
+              }
+            }
+           //testing values... 
+            console.log(favoriteGamesArray);
+        }); 
+  
+      });             
+  
+  
+    //if they dont get to login successfully...
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      //calling ajax function for when user has not loggin;
+      //useThisKey();
+     // debugger;
+  
     });
+  }
 
+  //remove table column from DOM...
+  $("body").on("click",".gameRow",function(){
+    //testing this.id
+        console.log(this.id);
+    //storing in a variable this.id
+    var thisId= this.id;
+      //remove it from the DOM
+      $("#tr-"+ thisId +"").remove();
+  });
+
+
+
+  useThisKey();
+
+  //if they click on login tab...
+  $("#login").on("click",function(){
+    favoriteGamesArray=[]
+    $("#savedgames").empty();
+    authGoogle();
+  });
+
+  //if they click logout...
+$("#logout").on("click",function(){
+  //logout firebase signOut function....
+  firebase.auth().signOut().then(function() {
+    $("#savedgames").empty();
+    $("#saved-games-card").hide();
+    clearing();
+    user=null;
+    $("#logout").hide();
+    $("#login").show();
+
+    //.....to talk with the group.......
+    $("#developers").show();
+    $("#reviews").show();
+    //.....to talk with the group...........
+    
+    
+  }).catch(function(error) {
+    // An error happened.
+  });
 });
 
 
-//if user decides not to log in, let them call results...
-useThisKey();
-
-function useThisKey(user) {
 
 
-    //giantbomb API front page changes.....
+//if user has not login they this function will let them search for results...
 
+//event delegator function for when the user clicks on saved games...
+$("body").on("click",".favoriteGame",function(event){
+  //to prevent the site from refreshing...
+  event.preventDefault(event);
+  console.log($(this).text());
+  var gameName=$(this).text();
 
-
-var apiKey = "bf4a00432b31ea4966819b748105a4d93da12821";
-//Tyler
-$(".picture").on("click",function(){
-  //prevent page to refresh
-  event.preventDefault();
+  //Erasing the Local Storage (IVER)
+  localStorage.removeItem("gameDescription");
+  
   //variables for user input and for url
-
-  var gameName= this.id;
   var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:"+ gameName +"&api_key="+ apiKey +"&limit=3&number_of_user_reviews=50";
+  var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
 
+  // calling the 3 tabs (reviews, etc) (IVER)
+  displayLinks();
+  
+  //ajax function... using jsonp to get results
 
-  displayLinks();// calling the function (IVER)
   
   //ajax function... using jsonp to get results because otherwise we dont
   $.ajax({
@@ -97,23 +233,21 @@ $(".picture").on("click",function(){
       //clear divs and clear input value.
       clearing();
 
-     
-      console.log(response);
+                console.log(response);
       //lets print first value in array
       var data= response.results[0];
-      var gameNamePrint =data.name
-      console.log(data.name);
-      //create elements
-      //img..
-      var posterImage= $("<img>");
-      //give src and id attribute
+                console.log(data.name);
+
+      //<img> is stored in global variable posterImage, <h4> is stored in global variable descriptionBox... 
+      //give src and id attribute to posterImage...
+
       posterImage.attr("src", data.image.small_url);
       posterImage.attr("id","poster");
       //append it to #game-poster div
       $("#game-poster").append(posterImage);
 
-      //create <h4> element for the description, deck is html value, when need to write it inside the new element <h4>, then append the new element to #description div
-      var descriptionBox =$("<h4>")
+
+      //lets work with the description div, and the descriptionBox element....
 
       descriptionBox.html(data.deck);
       $("#description").append(descriptionBox);
@@ -123,22 +257,47 @@ $(".picture").on("click",function(){
 
       //to grab each of the array values we use for loop, to repeat each action with each value from platform array..
       for(var i=0;i<platformsArray.length;i++){
-          var platformContainer=$("<p>");
-          platformContainer.text(platformsArray[i].name);
-          $("#platform").append(platformContainer);
-
-          console.log(platformsArray[i].name);
+        var platformContainer=$("<p>");
+        platformContainer.text(platformsArray[i].name);
+        $("#platform").append(platformContainer);
+                    console.log(platformsArray[i].name);
       }
 
-       //creating button to save games to save to favorites:
-       var favButton =$("<button>");
-       favButton.text("save to favorite games");
-       $("#game-poster").append(favButton);
-        var dataRef = firebase.database();
+       // Saving into the Local Storage the Overview of the game to show it on the Review page. (IVER)
+       localStorage.setItem("gameDescription",data.description);
 
+       var myGuid = response.results[0].guid;
+      localStorage.setItem("gameDescription",data.description);
+      queryURL = "https://www.giantbomb.com/api/game/" + myGuid + "/?format=JSONP&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
+            console.log(queryURL);
+            $.ajax({
+                url: queryURL,
+                dataType: "jsonp",
+                jsonp: 'json_callback',
+                guidData: {
+                    api_key: apiKey,
+                    format: 'jsonp',
+                },
 
-      //when they click on favButton button: 
-      favButton.on("click",function(){
+            })
+                .then(function (response) {
+                    console.log(response);
+
+                    var devs = response.results.developers;
+                    console.log(devs);
+                    var devsCount = devs.length;
+                    localStorage.setItem("devsCount", devsCount);
+                    for (var i = 0; i < devs.length; i++) {
+                        // debugger;
+                        var devName = response.results.developers[i].name;
+                        localStorage.setItem("gameDevs" + i, devName);
+                        console.log(devName);
+                        // debugger;
+                    }
+                });   
+
+  });
+
 
         console.log(favButtonPushes.length);
         //empty array, will be use for conditional below...
@@ -176,167 +335,37 @@ $(".picture").on("click",function(){
 
           //need to get it to push once just once!!!!!
 
-          }     
+          }
+            
       });
-      var myGuid = response.results[0].guid;
-      localStorage.setItem("gameDescription",data.description);
-      queryURL = "https://www.giantbomb.com/api/game/" + myGuid + "/?format=JSONP&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
-            console.log(queryURL);
-            $.ajax({
-                url: queryURL,
-                dataType: "jsonp",
-                jsonp: 'json_callback',
-                guidData: {
-                    api_key: apiKey,
-                    format: 'jsonp',
-                },
-
-            })
-                .then(function (response) {
-                    console.log(response);
-
-                    var devs = response.results.developers;
-                    console.log(devs);
-                    var devsCount = devs.length;
-                    localStorage.setItem("devsCount", devsCount);
-                    for (var i = 0; i < devs.length; i++) {
-                        // debugger;
-                        var devName = response.results.developers[i].name;
-                        localStorage.setItem("gameDevs" + i, devName);
-                        console.log(devName);
-                        // debugger;
-                    }
-                });
-    });
-})
+      
+    //});
+//})
 //$("#search-button").on("click", function () {
-    //prevent page to refresh
-    //event.preventDefault();
-    //variables for user input and for url
-    var buttonsArray = ["Reviews", "Developers"]
-
-    var apiKey = "bf4a00432b31ea4966819b748105a4d93da12821";
+//});
 
 
-    $("#search-button").on("click", function () {
-        //prevent page to refresh
-        event.preventDefault();
-        //variables for user input and for url
+        //debugger;
 
-        var gameName = $("#game-search-box").val();
-        var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=3&number_of_user_reviews=50";
+        // ...
+    });
 
-        var gameName = $("#game-search-box").val();
-        var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
-
-        console.log(queryURL);
-        displayLinks();// calling the function (IVER)
-
-        //ajax function... using jsonp to get results because otherwise we dont
-        $.ajax({
-            url: queryURL,
-            dataType: "jsonp",
-            jsonp: 'json_callback',
-            data: {
-                api_key: apiKey,
-                format: 'jsonp',
-            },
-
-        }).then(function (response) {
-            //after we get Jsonp
-            //clear divs and clear input value.
-            clearing();
-
-            console.log(response);
-            //lets print first value in array
-            var data = response.results[0];
-            var myGuid = response.results[0].guid;
-            console.log(myGuid);
-            var gameNamePrint = data.name
-            console.log(data.name);
-            //create elements
-            //img..
-            var posterImage = $("<img>");
-            //give src and id attribute
-            posterImage.attr("src", data.image.small_url);
-            posterImage.attr("id", "poster");
-            //append it to #game-poster div
-            $("#game-poster").append(posterImage);
-
-            //create <h4> element for the description, deck is html value, when need to write it inside the new element <h4>, then append the new element to #description div
-            var descriptionBox = $("<h4>");
+});
 
 
+//if user decides not to log in, let them call results...
+useThisKey();
+
+function useThisKey(user) {
 
 
-            descriptionBox.html(data.deck);
-            $("#description").append(descriptionBox);
-
-            //grab platform values from json result, platform values are in an array..
-            var platformsArray = data.platforms;
-            //to grab each of the array values we use for loop, to repeat each action with each value from platform array..
-            for (var i = 0; i < platformsArray.length; i++) {
-                var platformContainer = $("<p>");
-                platformContainer.text(platformsArray[i].name);
-                $("#platform").append(platformContainer);
-
-                console.log(platformsArray[i].name);
-            }
-
-            //creating button to save games to save to favorites:
-            var favButton = $("<button>");
-            favButton.text("save to favorite games");
-            $("#game-poster").append(favButton);
-            var dataRef = firebase.database();
+    //giantbomb API front page changes.....
 
 
-            //when they click on favButton button: 
-            favButton.on("click", function () {
-
-                console.log(favButtonPushes.length);
-                //empty array, will be use for conditional below...
-                var pushes = favButtonPushes.length
-
-                //if user is undefined and array is empty...
-                if (user == null) {
-                    var loginDiv = $("<div>");
-                    loginDiv.attr("id", "login-div");
-                    $("#game-poster").prepend(loginDiv);
-                    //print message to login
-                    if (pushes === 0) {
-                        loginDiv.text("*Please login to save games*");
-                        favButtonPushes.push("push");
-                    }
-                    // if user is undefined and have clicked button more than once
-                    else if (pushes === 1) {
-                        loginDiv.text("You have not login, or have login unsuccesfully.");
-                        favButtonPushes.push("push");
-                    }
-                }
-
-                else {
-                    console.log(gameNamePrint);
-                    var email = user.email
-                    console.log(email);
-                    //for us to store database using email as property for the values 
-                    var finalEmail = email.split('.').join("");
-                    //storing here
-                    dataRef.ref(finalEmail + "/favoriteGames").push({
-                        name: gameNamePrint,
-                        searchTerm: gameName,
-                    });
-
-                    //need to get it to push once just once!!!!!
-
-                }
-
-            });
-
-
-            localStorage.setItem("gameDescription", data.description);
-
-// New code on the iverDeveloperLink Branch 
-            queryURL = "https://www.giantbomb.com/api/game/" + myGuid + "/?format=JSONP&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
+      //passing on click function, dynamic button
+      favButtonOnClick(user);   
+      myGuid = response.results[0].guid
+    queryURL = "https://www.giantbomb.com/api/game/" + myGuid + "/?format=JSONP&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
             console.log(queryURL);
 
             $.ajax({
@@ -364,49 +393,141 @@ $(".picture").on("click",function(){
                         // debugger;
                     }
                 });
-// New code on the iverDeveloperLink Branch
-
-        });
-        //will use to call database stored values: 
-        dataRef.ref().on("child_added", function (childSnapshot) {
-            console.log(childSnapshot);
-            //still trying to figure out how to call inside becuase when calling childsnapshot i dont find the smallest values....
-
-            // name = childSnapshot.val().name;
-
-            // console.log(name);
-    
-
-
-
         });
 
-       
-    });
+  });
+
+        //Tyler
+$(".picture").on("click",function(){
+  //prevent page to refresh
+  event.preventDefault();
+  //variables for user input and for url
+  var gameName= this.id;
+  var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:"+ gameName +"&api_key="+ apiKey +"&limit=3&number_of_user_reviews=50";
 
 
+  displayLinks();// calling the function (IVER)
+  $.ajax({
+    url: queryURL,
+    dataType: "jsonp",
+    jsonp: 'json_callback',
+    data: {
+        api_key: apiKey,
+        format: 'jsonp',
+    },
+
+}).then(function (response) {
+    //after we get Jsonp
+    //clear divs and clear input value.
+    clearing();
+    var myGuid = response.results[0].guid;
+              console.log(response);
+    //lets print first value in array
+    var data= response.results[0];
+    var gameNamePrint =data.name;
+    repetitiveFavoriteGamesPushes=[];
+    favButtonPushes=[];
+              console.log(data.name);
+
+    //<img> is stored in global variable posterImage, <h4> is stored in global variable descriptionBox... 
+    //give src and id attribute to posterImage...
+
+    posterImage.attr("src", data.image.small_url);
+    posterImage.attr("id","poster");
+    posterImage.attr("data-name", gameNamePrint);
+    //append it to #game-poster div
+    $("#game-poster").append(posterImage);
 
 
-    function displayLinks() { //Function to display Links "Reviews","Prices","Developers" after click on submit button (IVER)
-        $(".card-footer").empty();
-        for (var i = 0; i < buttonsArray.length; i++) {
-            var href = buttonsArray[i].toLocaleLowerCase();
-            var newLink = $("<a>");
-            newLink.attr("id", "link");
-            newLink.attr("href", "../" + href + ".html");
-            newLink.text(buttonsArray[i]);
-            $(".card-footer").append(newLink);
-        }
+    //lets work with the description div, and the descriptionBox element....
+
+    descriptionBox.html(data.deck);
+    $("#description").append(descriptionBox);
+
+    //grab platform values from json result, platform values are in an array..
+    var platformsArray = data.platforms;
+
+    //to grab each of the array values we use for loop, to repeat each action with each value from platform array..
+    for(var i=0;i<platformsArray.length;i++){
+      var platformContainer=$("<p>");
+      platformContainer.text(platformsArray[i].name);
+      $("#platform").append(platformContainer);
+                  console.log(platformsArray[i].name);
     }
 
-}
+     //favButton is a global variable,it is a button element, we are using it to save games to favorites:
+     favButton.text("save to favorite games");
+     $("#game-poster").append(favButton);
 
 
+     // Saving into the Local Storage the Overview of the game to show it on the Review page. (IVER)
+     localStorage.setItem("gameDescription",data.description);
+
+     //passing on click function, dynamic button
+     favButtonOnClick(user);
+     queryURL = "https://www.giantbomb.com/api/game/" + myGuid + "/?format=JSONP&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
+            console.log(queryURL);
+
+            $.ajax({
+                url: queryURL,
+                dataType: "jsonp",
+                jsonp: 'json_callback',
+                guidData: {
+                    api_key: apiKey,
+                    format: 'jsonp',
+                },
+
+            })
+                .then(function (response) {
+                    console.log(response);
+
+                    var devs = response.results.developers;
+                    console.log(devs);
+                    var devsCount = devs.length;
+                    localStorage.setItem("devsCount", devsCount);
+                    for (var i = 0; i < devs.length; i++) {
+                        // debugger;
+                        var devName = response.results.developers[i].name;
+                        localStorage.setItem("gameDevs" + i, devName);
+                        console.log(devName);
+                        // debugger;
+                    }
+                });
+   
+       });
+});
+
+
+
+//...........function ends here.........
+
+
+//array for the diferent button names
+var buttonsArray = ["Reviews", "Developers"]
+
+//........function starts here...........
+function displayLinks() { //Function to display Links "Reviews","Prices","Developers" after click on submit button (IVER)
+//adjusted class becuase had to create another card with same classes; so gave unique id to the searching card (Ginna)
+    $("#cardfooter").empty();
+    for (var i = 0; i < buttonsArray.length; i++) {
+      var href = buttonsArray[i].toLocaleLowerCase();
+      var newLink = $("<a>");
+      newLink.attr("id", "link");
+      newLink.attr("href","../" + href + ".html");
+      newLink.text(buttonsArray[i]);
+      $("#cardfooter").append(newLink);
+    }
 
 //to clear divs and input value....
-function clearing() {
-    $("#game-search-box").val("");
-    $("#game-poster").empty();
-    $("#description").empty();
-    $("#platform").empty();
+
+function clearing(){
+  $("#game-search-box").val("");
+  $("#game-poster").empty();
+  $("#description").empty();
+  $("#platform").empty();  
 }
+
+
+
+
+
