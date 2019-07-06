@@ -3,6 +3,10 @@ body {
     background-color: black;
 }
 
+.navbar {
+    background-color: silver;
+}
+
 p {
     font-size: 24px;
 }
