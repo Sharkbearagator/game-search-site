@@ -168,6 +168,8 @@
     favoriteGamesArray=[]
     $("#savedgames").empty();
     authGoogle();
+    $("#cardfooter").empty();
+    
   });
 
   //if they click logout...
