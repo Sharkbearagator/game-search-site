@@ -1,7 +1,11 @@
 body {
-    font-family: 'Roboto Slab', serif;
+    font-family: 'Roboto', sans-serif;
     background-color: black;
     font-size: 18px;
+}
+
+p {
+    font-size: 24px;
 }
 
 .head {
@@ -22,7 +26,9 @@ body {
     background-color: transparent;
 }
 
-
+.card-header {
+    font-size: 21px;
+}
 
 .navbar {
     height: 50px;
@@ -33,7 +39,6 @@ body {
     text-align: center;
     padding: 50px 0;
     color: white;
-    font-family: 'Amaranth', sans-serif;
     background-image: url("../images/newWallpaper.png");
     margin-bottom: 20px;
 }
@@ -53,19 +58,23 @@ body {
     font-size: 21px;
     margin-left: 50px;
     font-family: 'Rock Salt', cursive;
+    color: black;
+}
+
+.nav-link {
+    color: black;
 }
 
 a {
     color: white;
-    font-size: 18px;
+    font-size: 24px;
 }
 
 a.nav-link:hover {
-    font-size: 25px;
-}
-
-.newBtn {
-    color: black;
+    background-color: black;
+    color: white;
+    
+    
 }
 
 .login {
@@ -89,12 +98,14 @@ a.nav-link:hover {
 #link{ 
     margin-right: 15px;
     margin-left: 15px;
+    color: black;
 }
 
 
 #link:hover {
-    background-color: gray;
+    text-decoration: none;
     color: white;
+    background-color: black;
 }
 /* IVER */
 
@@ -138,6 +149,9 @@ a.nav-link:hover {
 /*Tyler*/
 #popular{
     color: white;
+    margin-top: 100px;
+    margin-bottom: 40px;
+    text-decoration: underline;
     font-family: 'Rock Salt', cursive;
 }
 .picture{
@@ -146,24 +160,62 @@ a.nav-link:hover {
     margin: 5px; 
     margin-left: 20px;
 }
+
     #zelda{
     color: white;
+    font-size: 20px;
     
 }
     #red-dead{
     color: white;
+    font-size: 20px;
 }
     #gta{
     color: white;
+    font-size: 20px;
 }
     #mario{
     color: white;
+    font-size: 20px;
 }
     #witcher-3{
     color: white;
+    font-size: 20px;
 }
     #sleeping-dogs{
     color: white;
+    font-size: 20px;
+}
+
+#description {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+}
+
+#description1 {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 36px;
+}
+
+h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 35px;
+    color: white;
+}
+
+li {
+    display: liste-item;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+}
+
+div.NFG-footer {
+    background: black;
 }
 
 
