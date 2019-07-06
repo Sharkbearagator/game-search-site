@@ -1,6 +1,7 @@
 body {
     font-family: 'Roboto', sans-serif;
     background-color: black;
+    font-size: 18px;
 }
 
 .navbar {
@@ -19,7 +20,7 @@ p {
 }
 
 .main {
-    width: 50%;
+    width: 100%;
     margin-top: 50px;
 }
 
@@ -79,6 +80,10 @@ a.nav-link:hover {
     
 }
 
+.card-header {
+    color: black;
+}
+
 .login {
     margin-right: 50px;
 }
@@ -87,6 +92,10 @@ a.nav-link:hover {
     margin-top: 20px;
     margin-right: 60px;
     font-size: 21px;
+}
+
+.nav-link {
+    color: black;
 }
 
 #poster{
@@ -123,6 +132,17 @@ a.nav-link:hover {
 
 #login-div{
     color:white;
+}
+
+#fav-games-div{
+    color:white;
+}
+
+
+
+#link:hover {
+    background-color: gray;
+    color: white;
 }
 
 #poster {
