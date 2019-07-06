@@ -3,6 +3,10 @@ body {
     background-color: black;
 }
 
+.navbar {
+    background-color: silver;
+}
+
 p {
     font-size: 24px;
 }
@@ -15,7 +19,7 @@ p {
 }
 
 .main {
-    width: 50%;
+    width: 100%;
     margin-top: 50px;
 }
 
@@ -197,7 +201,7 @@ h2 {
     margin-top: 20px;
     margin-bottom: 20px;
     margin-left: 35px;
-    color: white;
+    color: black;
 }
 
 li {
@@ -209,7 +213,7 @@ li {
 }
 
 div.NFG-footer {
-    background: black;
+    background: silver;
 }
 
 
