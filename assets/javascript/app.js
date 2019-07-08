@@ -1,4 +1,3 @@
- 
  //empty arrays, used for .on("click" fuctions to don't take into effect respective changes more than 2 times...
   var favButtonPushes=[]
   var favoriteGamesArray=[]
@@ -8,8 +7,8 @@
   var user;
   var name;
   var snapshotKey;
-  var gameToRemove;
-      
+  var gameToRemove; 
+  var finalEmail;     
  //hiding games-saved-chart id when user has not login... 
  $("#saved-games-card").hide();
 
@@ -44,47 +43,22 @@
   //firebase auth.. for when user logs in...
   var provider = new firebase.auth.GoogleAuthProvider();
 
-//function firebase google authentication...
-  function authGoogle(){
-    //when signing in sucessfully...
-    firebase.auth().signInWithPopup(provider).then(function(result) {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      var token = result.credential.accessToken;
-                  console.log(token);
-      // The signed-in user info.
-      user = result.user;
-      
-      //clearing searches from the dom and the search val: to give the user a fresh start
-      clearing();
+  //Firebase auth state changes function; to detect if the user have already logged in (to make it persistent)..will keep you logged in until you click logout 
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
       //showing saved games chart if they have logged in
       $("#saved-games-card").show();
 
       //clearing array
       favoriteGamesArray=[];
+     
       
-      //getting user's email
-      var email =user.email
-                  console.log(email);
-      //for us to store database using email as property for the values 
-      var finalEmail= email.split('.').join("");
-
-      //hiding login tab & showing logout tab
+      var email = user.email;
+      finalEmail= email.split('.').join("");
+      // User is signed in.
       $("#login").hide();
       $("#logout").show();
 
-      //.....to talk with group......................................
-      $("#developers").hide();
-      $("#reviews").hide();
-
-      //......to talk with group..............................
-
-      //localStorage the user
-
-      //  // Saving into the Local Storage the final email as how it is stored in firebase, to use it when user is back to front page and make
-      //  localStorage.setItem("userEmail",finalEmail);
-      
-    
-      //function to use to call database stored values from each childSnapshot: 
       dataRef.ref(finalEmail +"/favoriteGames").on("child_added", function (childSnapshot) {
         //adding a key to appead each key to a table
       snapshotKey = childSnapshot.key;
@@ -126,13 +100,57 @@
                 i--;
               }
             }
-           //testing values... 
-            console.log(favoriteGamesArray);
-        }); 
-  
-      });             
-  
-  
+     
+     
+
+      console.log(email);
+
+          });
+        });
+      
+
+      // ...
+   } else {
+      // User is signed out.
+     console.log("please login")
+     user=null;
+     finalEmail=0
+     $("#logout").hide();
+    $("#login").show();
+    }
+  });
+
+
+//function firebase google authentication... to log in with google
+  function authGoogle(){
+    //when signing in sucessfully...
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      var token = result.credential.accessToken;
+                  console.log(token);
+      // The signed-in user info.
+      user = result.user;
+      
+      //clearing searches from the dom and the search val: to give the user a fresh start
+      clearing();
+      //showing saved games chart if they have logged in
+      $("#saved-games-card").show();
+
+      //clearing array
+      favoriteGamesArray=[];
+      
+      //getting user's email
+      var email =user.email
+                  console.log(email);
+      //for us to store database using email as property for the values 
+      var finalEmail= email.split('.').join("");
+
+      //hiding login tab & showing logout tab
+      $("#login").hide();
+      $("#logout").show();
+
+      //we reload the page because the changes are already been called in function /Firebase auth state changes function 
+      location.reload();
     //if they dont get to login successfully...
     }).catch(function(error) {
       // Handle Errors here.
@@ -148,6 +166,8 @@
   
     });
   }
+
+
 
   //remove table column from DOM...
   $("body").on("click",".gameRow",function(){
@@ -345,7 +365,7 @@ function useThisKey(){
       localStorage.setItem("gameDescription",data.description);
 
       //passing on click function, dynamic button
-      favButtonOnClick(user);   
+      favButtonOnClick(finalEmail);   
     
         });
 
@@ -419,7 +439,7 @@ $(".picture").on("click",function(){
      localStorage.setItem("gameDescription",data.description);
 
      //passing on click function, dynamic button
-     favButtonOnClick(user);   
+     favButtonOnClick(finalEmail);   
    
        });
 });
@@ -429,8 +449,8 @@ $(".picture").on("click",function(){
 
 //...........function ends here.........
 
-//...............function starts here: used to when user saves/tries to saved searched game...............
-function favButtonOnClick(user){
+//...............function starts here: used to when user saves/tries to saved searched game............... using the finalEmail parameter that was defined in the Firebase auth state changes function
+function favButtonOnClick(finalEmail){
   //when they click on favButton button: 
   favButton.on("click",function(event){
   event.preventDefault(event);
@@ -442,7 +462,7 @@ function favButtonOnClick(user){
   var pushes=favButtonPushes.length
   
   //if user is undefined and array is empty...
-  if (user==null){
+  if (finalEmail==0){
                                 console.log(null);
     //not logged in - create div and attach it to the DOM to let user know they have not loggin
     var loginDiv=$("<div>");
@@ -467,11 +487,6 @@ function favButtonOnClick(user){
   else{
                     console.log(gameNamePrint);
                     console.log("it is detecting you are logged in!!!!!")
-    //getting email adjusted to information firebase can accept and storing it in a variable....                 
-    var email =user.email
-    console.log(email);
-    //for us to store database using email as property for the values 
-    var finalEmail= email.split('.').join("");
   
     //if the favoriteGamesArray has the game in the list then we dont push to firebase - to control duplicates.... 
     if(favoriteGamesArray.includes(gameNamePrint)){
