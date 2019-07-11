@@ -451,7 +451,8 @@ function useThisKey(){
       favButtonOnClick(finalEmail);   
     
 
-      favButtonOnClick(user);   
+      // favButtonOnClick(user);   
+
       myGuid = response.results[0].guid
     queryURL = "https://www.giantbomb.com/api/game/" + myGuid + "/?format=JSONP&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
             console.log(queryURL);
@@ -556,7 +557,7 @@ $(".picture").on("click",function(){
 
      favButtonOnClick(finalEmail);   
 
-     favButtonOnClick(user);
+    //  favButtonOnClick(user);
      queryURL = "https://www.giantbomb.com/api/game/" + myGuid + "/?format=JSONP&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
             console.log(queryURL);
 
