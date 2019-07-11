@@ -1,3 +1,7 @@
+
+
+ window.onload = localStorage.clear()
+
  //empty arrays, used for .on("click" fuctions to don't take into effect respective changes more than 2 times...
   var favButtonPushes=[]
   var favoriteGamesArray=[]
@@ -7,8 +11,13 @@
   var user;
   var name;
   var snapshotKey;
+
   var gameToRemove; 
   var finalEmail;     
+
+  var gameToRemove;
+  var myGuid;
+      
  //hiding games-saved-chart id when user has not login... 
  $("#saved-games-card").hide();
 
@@ -287,10 +296,83 @@ $("body").on("click",".favoriteGame",function(event){
        // Saving into the Local Storage the Overview of the game to show it on the Review page. (IVER)
        localStorage.setItem("gameDescription",data.description);
 
+       var myGuid = response.results[0].guid;
+      localStorage.setItem("gameDescription",data.description);
+      queryURL = "https://www.giantbomb.com/api/game/" + myGuid + "/?format=JSONP&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
+            console.log(queryURL);
+            $.ajax({
+                url: queryURL,
+                dataType: "jsonp",
+                jsonp: 'json_callback',
+                guidData: {
+                    api_key: apiKey,
+                    format: 'jsonp',
+                },
+
+            })
+                .then(function (response) {
+                    console.log(response);
+
+                    var devs = response.results.developers;
+                    console.log(devs);
+                    var devsCount = devs.length;
+                    localStorage.setItem("devsCount", devsCount);
+                    for (var i = 0; i < devs.length; i++) {
+                        // debugger;
+                        var devName = response.results.developers[i].name;
+                        localStorage.setItem("gameDevs" + i, devName);
+                        console.log(devName);
+                        // debugger;
+                    }
+                });   
+
   });
 
 
-});
+        console.log(favButtonPushes.length);
+        //empty array, will be use for conditional below...
+        var pushes=favButtonPushes.length
+        
+        //if user is undefined and array is empty...
+        if (user==null){
+          console.log(null);
+          var loginDiv=$("<div>");
+          loginDiv.attr("id","login-div");
+          $("#game-poster").prepend(loginDiv);
+          //print message to login
+          if(pushes===0){
+            loginDiv.text("*Please login to save games*");
+            favButtonPushes.push("push");
+          }
+        // if user is undefined and have clicked button more than once
+          else if(pushes===1){
+            loginDiv.text("You are not logged in, or have logged in unsuccesfully.");
+            favButtonPushes.push("push");
+          }
+        }
+
+        else{
+          console.log(gameNamePrint);
+          var email =user.email
+          console.log(email);
+          //for us to store database using email as property for the values 
+          var finalEmail= email.split('.').join("");
+        //storing here
+          dataRef.ref(finalEmail +"/favoriteGames").push({
+              name: gameNamePrint,
+              searchTerm: gameName,
+            });
+
+          //need to get it to push once just once!!!!!
+
+          }
+            
+      });
+      
+    //});
+//})
+//$("#search-button").on("click", function () {
+//});
 
 
 //function starts....if user decides not to log in, let them call results...
@@ -365,8 +447,41 @@ function useThisKey(){
       localStorage.setItem("gameDescription",data.description);
 
       //passing on click function, dynamic button
+
       favButtonOnClick(finalEmail);   
     
+
+      favButtonOnClick(user);   
+      myGuid = response.results[0].guid
+    queryURL = "https://www.giantbomb.com/api/game/" + myGuid + "/?format=JSONP&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
+            console.log(queryURL);
+
+            $.ajax({
+                url: queryURL,
+                dataType: "jsonp",
+                jsonp: 'json_callback',
+                guidData: {
+                    api_key: apiKey,
+                    format: 'jsonp',
+                },
+
+            })
+                .then(function (response) {
+                    console.log(response);
+
+                    var devs = response.results.developers;
+                    console.log(devs);
+                    var devsCount = devs.length;
+                    localStorage.setItem("devsCount", devsCount);
+                    for (var i = 0; i < devs.length; i++) {
+                        // debugger;
+                        var devName = response.results.developers[i].name;
+                        localStorage.setItem("gameDevs" + i, devName);
+                        console.log(devName);
+                        // debugger;
+                    }
+                });
+
         });
 
   });
@@ -376,7 +491,6 @@ $(".picture").on("click",function(){
   //prevent page to refresh
   event.preventDefault();
   //variables for user input and for url
-
   var gameName= this.id;
   var queryURL = "https://www.giantbomb.com/api/games/?format=JSON&filter=name:"+ gameName +"&api_key="+ apiKey +"&limit=3&number_of_user_reviews=50";
 
@@ -395,7 +509,7 @@ $(".picture").on("click",function(){
     //after we get Jsonp
     //clear divs and clear input value.
     clearing();
-
+    var myGuid = response.results[0].guid;
               console.log(response);
     //lets print first value in array
     var data= response.results[0];
@@ -439,7 +553,39 @@ $(".picture").on("click",function(){
      localStorage.setItem("gameDescription",data.description);
 
      //passing on click function, dynamic button
+
      favButtonOnClick(finalEmail);   
+
+     favButtonOnClick(user);
+     queryURL = "https://www.giantbomb.com/api/game/" + myGuid + "/?format=JSONP&filter=name:" + gameName + "&api_key=" + apiKey + "&limit=1";
+            console.log(queryURL);
+
+            $.ajax({
+                url: queryURL,
+                dataType: "jsonp",
+                jsonp: 'json_callback',
+                guidData: {
+                    api_key: apiKey,
+                    format: 'jsonp',
+                },
+
+            })
+                .then(function (response) {
+                    console.log(response);
+
+                    var devs = response.results.developers;
+                    console.log(devs);
+                    var devsCount = devs.length;
+                    localStorage.setItem("devsCount", devsCount);
+                    for (var i = 0; i < devs.length; i++) {
+                        // debugger;
+                        var devName = response.results.developers[i].name;
+                        localStorage.setItem("gameDevs" + i, devName);
+                        console.log(devName);
+                        // debugger;
+                    }
+                });
+
    
        });
 });
@@ -523,7 +669,7 @@ function favButtonOnClick(finalEmail){
 //......function ends here.............
 
 //array for the diferent button names
-var buttonsArray = ["Reviews", "Prices", "Developers"]
+var buttonsArray = ["Reviews", "Developers"]
 
 //........function starts here...........
 function displayLinks() { //Function to display Links "Reviews","Prices","Developers" after click on submit button (IVER)
