@@ -1,4 +1,7 @@
-//
+
+// window.onload = alert(localStorage.getItem("gameDescription")); 
+$("#description").append(localStorage.getItem("gameDescription"));
+
   // Your web app's Firebase configuration
   var firebaseConfig = {
     apiKey: "AIzaSyC7DFF1nM3xl7dJH0siTbRiLUVrNMHGYuo",
@@ -47,5 +50,3 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 
 
-// window.onload = alert(localStorage.getItem("gameDescription")); 
-$("#description").append(localStorage.getItem("gameDescription"));
