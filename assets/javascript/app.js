@@ -680,7 +680,7 @@ function displayLinks() { //Function to display Links "Reviews","Prices","Develo
       var href = buttonsArray[i].toLocaleLowerCase();
       var newLink = $("<a>");
       newLink.attr("id", "link");
-      newLink.attr("href","../" + href + ".html");
+      newLink.attr("href","./" + href + ".html");
       newLink.text(buttonsArray[i]);
       $("#cardfooter").append(newLink);
     }
